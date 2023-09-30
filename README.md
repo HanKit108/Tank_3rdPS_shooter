@@ -8,3 +8,6 @@
 <br>
 <br>управление игрока реализовано через new input system
 <br>управление камерой через cinemachine
+
+
+https://github.com/HanKit108/Videos/assets/66297090/0cbfd343-de68-45e5-a31b-b1e65aead279
