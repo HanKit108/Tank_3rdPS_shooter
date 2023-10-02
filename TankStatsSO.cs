@@ -3,7 +3,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New TankStats", menuName = "Tank Stats", order = 51)]
-public class TankStats : ScriptableObject
+public class TankStatsSO : ScriptableObject
 {
     [SerializeField] private float hp;
     public float Hp

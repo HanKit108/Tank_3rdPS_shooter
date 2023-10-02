@@ -7,7 +7,7 @@ public class Turret : MonoBehaviour
     [SerializeField] private Transform turret;
     [SerializeField] private Transform barel;
     [SerializeField] private GameObject projectile;
-    [SerializeField] private TankStats tankStats;
+    [SerializeField] private TankStatsSO tankStats;
 
     private float _cooldown = 1;
     private float _moveSpeed;

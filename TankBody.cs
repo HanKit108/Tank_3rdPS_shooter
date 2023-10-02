@@ -3,7 +3,7 @@ using UnityEngine;
 public class TankBody : MonoBehaviour
 {
     private float _moveSpeed;
-    [SerializeField] private TankStats tankStats;
+    [SerializeField] private TankStatsSO tankStats;
     
     [SerializeField] private float collisionWidth;
     public float CollisionWidth

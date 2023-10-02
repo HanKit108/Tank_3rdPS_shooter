@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private TankStats tankStats;
+    [SerializeField] private TankStatsSO tankStats;
 
     private float _damage = 100f;
     public float Damage 
@@ -33,9 +31,9 @@ public class Projectile : MonoBehaviour
 
         if(Physics.Raycast(transform.position, transform.forward, out hit, 1))
         {
-            if(hit.collider.gameObject.GetComponentInParent<PlayerHealth>() != null)
+            if(hit.collider.gameObject.GetComponentInParent<TankHealth>() != null)
             {
-                hit.collider.gameObject.GetComponentInParent<PlayerHealth>().TakeDamage(_damage);
+                hit.collider.gameObject.GetComponentInParent<TankHealth>().TakeDamage(_damage);
             }
         Destroy(gameObject);
         }
