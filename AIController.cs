@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AIController : MonoBehaviour
+public class AIController : MonoBehaviour, ITankController
 {
     [SerializeField] private Transform _targetPos;
 
@@ -27,21 +25,22 @@ public class AIController : MonoBehaviour
     {
         _width = _bodyScript.CollisionWidth;
         _length = _bodyScript.CollisionLength;
-        //_start = transform.position + transform.forward * _length / 2;
     }
 
-    public Vector2 Drive()
+    void Update()
+    {
+        DrawGismo();
+    }
+
+    public Vector2 GetMoveDirection()
     {
         if(isActive)
         {
-            DrawGismo();
-            
             RaycastHit frontHit;
             _target = new Vector3(_targetPos.position.x, _targetPos.position.y, _targetPos.position.z);
             _vectorToTarget = transform.InverseTransformPoint(_target);
             _start = transform.position + transform.forward * _length / 2;
 
-            //_forward = 1;
             Vector3 distance = _targetPos.position - transform.position;
             if(distance.magnitude > closestDistance)
                 _forward = Mathf.Lerp(_forward, 1, lerp * Time.deltaTime);
@@ -54,7 +53,6 @@ public class AIController : MonoBehaviour
             {
                 float weight = MinWeight(frontHit.distance, rightHit.distance, leftHit.distance);
                 _forward -= _basicRaycastWeight * NormalizeHitDistance(weight, sensorLength, 0.5f);
-                //_forward = Mathf.Lerp(_forward, _forward - _basicRaycastWeight * NormalizeHitDistance(weight, sensorLength, 0.5f), lerp * Time.deltaTime);
             }
             
             _forward = Mathf.Clamp(_forward, -1f, 1f);

@@ -1,18 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, ITankController
 {
     [SerializeField] private float lerp;
     private PlayerControls _controls;
 
     private Vector2 direction;
- 
-    public Vector2 Direction
-    {
-        get {return direction;}
-    }
     
     private void Awake()
     {
@@ -31,7 +24,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        //direction = _controls.Player.Move.ReadValue<Vector2>();
         direction = Vector2.Lerp(direction, _controls.Player.Move.ReadValue<Vector2>(), lerp * Time.deltaTime);
+    }
+
+    public Vector2 GetMoveDirection()
+    {
+        return direction;
     }
 }

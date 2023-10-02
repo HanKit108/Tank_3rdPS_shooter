@@ -1,18 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerShoot : MonoBehaviour
+public class PlayerShoot : MonoBehaviour, ITurretController
 {
+    [SerializeField] private Transform camera;
+    
     private PlayerControls _controls;
 
     private bool isShot = false;
- 
-    public bool IsShot
-    {
-        get {return isShot;}
-    }
-
 
     private void Awake()
     {
@@ -41,4 +35,13 @@ public class PlayerShoot : MonoBehaviour
         isShot = false;
     }
 
+    public Quaternion GetTurretRotation()
+    {
+        return camera.rotation;
+    }
+
+    public bool IsShoot()
+    {
+        return isShot;
+    }
 }

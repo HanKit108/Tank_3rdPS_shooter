@@ -1,18 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class AITurret : MonoBehaviour
+public class AITurret : MonoBehaviour, ITurretController
 {
     [SerializeField] private Transform _target;
     [SerializeField] private Transform attackPoint;
 
     [SerializeField] private float attackDistance = 60;
     [SerializeField] private bool isActive = true;
-
     
-    
-    public Quaternion Rotate()
+    public Quaternion GetTurretRotation()
     {
         if(isActive)
         {
@@ -27,7 +23,7 @@ public class AITurret : MonoBehaviour
         return transform.rotation;
     }
 
-    public bool CanAttack()
+    public bool IsShoot()
     {
         if(isActive)
         {

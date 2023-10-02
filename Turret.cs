@@ -1,11 +1,9 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
     [SerializeField] private Transform attackPoint;
-    [SerializeField] private Transform camera;
     [SerializeField] private Transform turret;
     [SerializeField] private Transform barel;
     [SerializeField] private GameObject projectile;
@@ -13,39 +11,31 @@ public class Turret : MonoBehaviour
 
     private float _cooldown = 1;
     private float _moveSpeed;
+    private ITurretController _turretController;
 
-    private AITurret _aiScript;
-    private PlayerShoot _playerScript;
+    private bool _isShoot = false;
 
-    public bool IsShoot = false;
-
-    private bool _isPlayer = false;
     private Quaternion _target;
 
 
     private void Awake()
     {
-        _aiScript = GetComponentInParent<AITurret>();
-        _playerScript = GetComponentInParent<PlayerShoot>();
-
-        if(_aiScript != null)
-        {
-            _isPlayer = false;
-        }
-        else
-        {
-            _isPlayer = true;
-        }
+        _turretController = GetComponentInParent<ITurretController>();
 
         _moveSpeed = tankStats.MoveSpeed;
         _cooldown = tankStats.Cooldown;
     }
 
+    private void OnEnable()
+    {
+        _isShoot = false;
+    }
+
     void Shoot()
     {
-        if(!IsShoot)
+        if(!_isShoot)
         {
-            IsShoot = true;
+            _isShoot = true;
             Instantiate(projectile, attackPoint.position, attackPoint.rotation);
             StartCoroutine(Cooldown(_cooldown));
         }
@@ -54,26 +44,15 @@ public class Turret : MonoBehaviour
     IEnumerator Cooldown(float cooldown)
     {
         yield return new WaitForSeconds(cooldown);
-        IsShoot = false;
+        _isShoot = false;
     }
 
     void Update()
     {
-        if(_isPlayer)
+        _target = _turretController.GetTurretRotation();
+        if(_turretController.IsShoot())
         {
-            _target = camera.rotation;
-            if(_playerScript.IsShot)
-            {
-                Shoot();
-            }
-        }
-        else
-        {
-            _target = _aiScript.Rotate();
-            if(_aiScript.CanAttack())
-            {
-                Shoot();
-            }
+            Shoot();
         }
 
         Rotate(_target);

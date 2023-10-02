@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TankBody : MonoBehaviour
@@ -20,34 +18,19 @@ public class TankBody : MonoBehaviour
     }
 
     private Vector2 _direction;
-    private bool _isPlayer = true;
 
-    private AIController _aiScript;
-    private PlayerController _playerScript;
+    private ITankController _tankController;
 
 
     private void Awake()
     {
-        _aiScript = GetComponentInParent<AIController>();
-        _playerScript = GetComponentInParent<PlayerController>();
-        if(_aiScript != null)
-        {
-            _isPlayer = false;
-        }
-        else
-        {
-            _isPlayer = true;
-        }
-
+        _tankController = GetComponentInParent<ITankController>();
         _moveSpeed = tankStats.MoveSpeed;
     }
 
     void Update()
     {
-        if(_isPlayer)
-            _direction = _playerScript.Direction;
-        else
-            _direction = _aiScript.Drive();
+        _direction = _tankController.GetMoveDirection();
 
         if(!CheckCollisionFront() && _direction.y > 0 
             || !CheckCollisionBack() && _direction.y < 0
